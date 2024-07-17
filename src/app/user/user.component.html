@@ -1,6 +1,6 @@
 <div>
-  <button (click)="onClick()">
-    <img [src]="imagePath" [alt]="name" />
-    <span>{{ name }}</span>
+  <button (click)="onSelect()">
+    <img [src]="imagePath()" [alt]="name()" />
+    <span>{{ name() }}</span>
   </button>
 </div>

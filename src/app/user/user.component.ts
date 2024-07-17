@@ -1,4 +1,10 @@
-import { Component, Input } from '@angular/core';
+import {
+  input,
+  output,
+  computed,
+  Component,
+  EventEmitter,
+} from '@angular/core';
 
 @Component({
   selector: 'app-user',
@@ -7,12 +13,15 @@ import { Component, Input } from '@angular/core';
   styleUrl: './user.component.css',
 })
 export class UserComponent {
-  @Input({ required: true }) name!: string;
-  @Input({ required: true }) avatar!: string;
+  id = input.required<string>();
+  name = input.required<string>();
+  avatar = input.required<string>();
 
-  get imagePath() {
-    return 'assets/users/' + this.avatar;
+  select = output<string>();
+
+  imagePath = computed(() => 'assets/users/' + this.avatar());
+
+  onSelect() {
+    this.select.emit(this.id());
   }
-
-  onClick() {}
 }
