@@ -1,38 +1,35 @@
-import { Component, inject, input, output, signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+
 import { TasksService } from '../tasks.service';
-import { type NewTask } from './new-task.model';
 
 @Component({
   selector: 'app-new-task',
   standalone: true,
-  imports: [FormsModule],
   templateUrl: './new-task.component.html',
   styleUrl: './new-task.component.css',
+  imports: [FormsModule, RouterLink],
 })
 export class NewTaskComponent {
   userId = input.required<string>();
-
-  close = output<void>();
-
-  enteredDate = signal<string>('');
-  enteredTitle = signal<string>('');
-  enteredSummary = signal<string>('');
-
+  private router = inject(Router);
   private tasksService = inject(TasksService);
-
-  onCancel() {
-    this.close.emit();
-  }
+  enteredDate = signal('');
+  enteredTitle = signal('');
+  enteredSummary = signal('');
 
   onSubmit() {
-    const newTask: NewTask = {
-      date: this.enteredDate(),
-      title: this.enteredTitle(),
-      summary: this.enteredSummary(),
-    };
-    this.tasksService.addTask(newTask, this.userId());
-
-    this.close.emit();
+    this.tasksService.addTask(
+      {
+        date: this.enteredDate(),
+        title: this.enteredTitle(),
+        summary: this.enteredSummary(),
+      },
+      this.userId()
+    );
+    this.router.navigate(['/users', this.userId(), 'tasks'], {
+      replaceUrl: true,
+    });
   }
 }

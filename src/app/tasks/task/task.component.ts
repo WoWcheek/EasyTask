@@ -1,7 +1,8 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { CardComponent } from '../../shared/card/card.component';
+
 import { TasksService } from '../tasks.service';
+import { CardComponent } from '../../shared/card/card.component';
 import { type Task } from './task.model';
 
 @Component({
@@ -13,7 +14,6 @@ import { type Task } from './task.model';
 })
 export class TaskComponent {
   task = input.required<Task>();
-
   private tasksService = inject(TasksService);
 
   onComplete() {
